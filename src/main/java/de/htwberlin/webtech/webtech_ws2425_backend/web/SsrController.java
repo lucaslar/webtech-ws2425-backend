@@ -1,4 +1,4 @@
-package de.htwberlin.webtech.webtech_ws2425_backend;
+package de.htwberlin.webtech.webtech_ws2425_backend.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

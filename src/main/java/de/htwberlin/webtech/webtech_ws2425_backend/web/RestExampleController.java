@@ -1,5 +1,6 @@
-package de.htwberlin.webtech.webtech_ws2425_backend;
+package de.htwberlin.webtech.webtech_ws2425_backend.web;
 
+import de.htwberlin.webtech.webtech_ws2425_backend.model.Hero;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

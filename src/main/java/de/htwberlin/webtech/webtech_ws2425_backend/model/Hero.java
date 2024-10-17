@@ -1,4 +1,4 @@
-package de.htwberlin.webtech.webtech_ws2425_backend;
+package de.htwberlin.webtech.webtech_ws2425_backend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
