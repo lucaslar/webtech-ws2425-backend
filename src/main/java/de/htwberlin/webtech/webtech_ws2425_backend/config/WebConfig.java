@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("*")
                 .allowedOrigins(
                         "http://localhost:5173",
-                        "https://webtech-projekt-frontend-ws-2024-25-i0uw.onrender.com"
+                        "https://webtech-ws2425-frontend.onrender.com"
                 );
     }
 }
