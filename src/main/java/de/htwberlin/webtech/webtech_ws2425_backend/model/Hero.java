@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Hero {
+    private int id;
     private String name;
     private String affiliation;
-    private double heightInM;
+    private Double heightInM;
 }
