@@ -32,8 +32,9 @@ public class HeroService {
     }
 
     public Hero addHero(final Hero hero) {
-        hero.setId( nextId++);
-        return this.heroes.put(hero.getId(), hero);
+        hero.setId(nextId++);
+        this.heroes.put(hero.getId(), hero);
+        return hero;
     }
 
     public Hero editHero(final Hero hero) {
