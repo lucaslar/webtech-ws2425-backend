@@ -10,15 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/api/heroes")
-public class HeroExampleController {
+public class HeroController {
 
-    HeroService heroService;
+    private final HeroService heroService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Hero>> getHeroes(@RequestParam final Optional<String> affiliation) {
@@ -30,9 +29,9 @@ public class HeroExampleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Hero> getHero(@PathVariable("id") final int id) {
-        final Hero hero = heroService.getHero(id);
-        if (hero == null) return ResponseEntity.notFound().build();
-        else return ResponseEntity.ok(hero);
+        final Optional<Hero> heroOptional = heroService.getHero(id);
+        if (!heroOptional.isPresent()) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(heroOptional.get());
     }
 
     @PostMapping
@@ -50,6 +49,8 @@ public class HeroExampleController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteHero(@PathVariable("id") final int id) {
-        return heroService.removeHero(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return heroService.removeHero(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

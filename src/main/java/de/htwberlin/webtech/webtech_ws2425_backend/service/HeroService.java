@@ -1,52 +1,47 @@
 package de.htwberlin.webtech.webtech_ws2425_backend.service;
 
 import de.htwberlin.webtech.webtech_ws2425_backend.model.Hero;
+import de.htwberlin.webtech.webtech_ws2425_backend.persistence.HeroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class HeroService {
 
-    private final Map<Integer, Hero> heroes = new HashMap<>(Map.of(
-            1, new Hero(1, "Han Solo", "Rebellion", 1.85),
-            2, new Hero(2, "Chewbacca", "Rebellion", 2.21),
-            3, new Hero(3, "Darth Vader", "Empire", 2.03)
-    ));
+    @Autowired
+    private HeroRepository repository;
 
-    private int nextId = 4;
-
-    public List<Hero> getHeroes() {
-        return this.heroes.values().stream().toList();
+    public Iterable<Hero> getHeroes() {
+        return this.repository.findAll();
     }
 
     public Iterable<Hero> getHeroes(final String affiliation) {
-        return this.getHeroes().stream()
+        return StreamSupport.stream(this.getHeroes().spliterator(), false)
                 .filter(h -> h.getAffiliation() != null && h.getAffiliation().equalsIgnoreCase(affiliation))
                 .collect(Collectors.toSet());
     }
 
-    public Hero getHero(final int id) {
-        return heroes.get(id);
+    public Optional<Hero> getHero(final int id) {
+        return this.repository.findById(id);
     }
 
     public Hero addHero(final Hero hero) {
-        hero.setId(nextId++);
-        this.heroes.put(hero.getId(), hero);
-        return hero;
+        return this.repository.save(hero);
     }
 
     public Hero editHero(final Hero hero) {
-        if (!this.heroes.containsKey(hero.getId())) return null;
+        if (!this.repository.existsById(hero.getId())) return null;
 
-        heroes.put(hero.getId(), hero);
-        return hero;
+        return addHero(hero);
     }
 
     public boolean removeHero(final int id) {
-        final boolean exists = this.heroes.containsKey(id);
-        if (exists) this.heroes.remove(id);
+        final boolean exists = this.repository.existsById(id); // this.heroes.containsKey(id);
+        if (exists) this.repository.deleteById(id);
         return exists;
     }
 }
